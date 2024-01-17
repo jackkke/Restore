@@ -9,12 +9,19 @@ jobs:
         with:
           java-version: '21'
           distribution: 'graalvm'
-      - name: print version
+      - name: Print env
         run: |
           echo "GRAALVM_HOME: $GRAALVM_HOME"
           echo "JAVA_HOME: $JAVA_HOME"
           java --version
           native-image --version
           mvn --version
-      - name: Maven Package Basic
-        run: mvn -Pall package
+      - name: Maven package basic
+        run: mvn -Pall clean package
+      - name: Create native need config files
+        run: |
+          cp restore.yml ./target
+          cd target
+          java -agentlib:native-image-agent=config-output-dir=..\src\main\resources\META-INF\native-image -jar .\Restore-all.jar
+      - name: Maven package native
+        run: mvn -Pnative clean package
