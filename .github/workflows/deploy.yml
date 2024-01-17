@@ -29,6 +29,8 @@ jobs:
           mvn -Pnative clean package
           pwd
           ls -l
+          cd target
+          ls -l
           mv target/Restore.exe ./
       - name: Release
         uses: softprops/action-gh-release@v1
