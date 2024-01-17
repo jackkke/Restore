@@ -1,15 +1,7 @@
 password: zion
 # svn:
-#   - http://192.168.0.30/V5/V500R001C00/00.Code/branches/other_code/各人临时备份/于鹏达/ump-work/crypto
+#   - your svn url
 # git:
-#   - git@192.168.0.103:hangaojie/copy-maven-plugin.git
-#  - git@192.168.0.103:hangaojie/jenkinsfile.git
-#  - git@192.168.0.103:drs/drs-cli.git
-#  - git@192.168.0.103:drs/drs-java.git
-#  - git@192.168.0.103:drs/drs-rules.git
-#  - git@192.168.0.103:drs/drs-spring-boot-starter.git
-#  - git@192.168.0.103:tdsp/jmeter-protobuf.git
-#  - git@192.168.0.103:jiabochao/logstash-deployer.git
-#  - git@192.168.0.103:tdsp/ump-generator.git
+#   - your git url
 path:
-  - D:\Project\future
+  - ./classes
