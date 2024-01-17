@@ -27,6 +27,8 @@ jobs:
       - name: Maven package native
         run: |
           mvn -Pnative clean package
+          pwd
+          ls -l
           mv target/Restore.exe ./
       - name: Release
         uses: softprops/action-gh-release@v1
