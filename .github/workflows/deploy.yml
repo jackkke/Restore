@@ -27,7 +27,7 @@ jobs:
       - name: Maven package native
         run: |
           mvn -Pnative clean package
-          mv Restore.exe ../
+          mv target/Restore.exe ./
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
