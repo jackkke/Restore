@@ -22,6 +22,8 @@ jobs:
         run: |
           cp restore.yml ./target
           cd target
+          ll
+          pwd
           java -agentlib:native-image-agent=config-output-dir=..\src\main\resources\META-INF\native-image -jar .\Restore-all.jar
       - name: Maven package native
         run: mvn -Pnative clean package
