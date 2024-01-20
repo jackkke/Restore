@@ -31,7 +31,7 @@ jobs:
         run: |
           mvn -Pnative clean package
           cd target
-          ls -l
+          ls
       # - name: Release (ubuntu only)
       #   if: matrix.platform == 'ubuntu-latest'
       #   run: |
