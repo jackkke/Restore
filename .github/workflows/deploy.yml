@@ -15,39 +15,37 @@ jobs:
         with:
           java-version: '21'
           distribution: 'graalvm'
-      - name: Print env
+      - name: Maven package
         run: |
-          echo "GRAALVM_HOME: $GRAALVM_HOME"
-          echo "JAVA_HOME: $JAVA_HOME"
-          java --version
-          native-image --version
-          mvn --version
-      - name: Maven package basic
-        run: mvn -Pall clean package
-      - name: Create native need config files
-        run: |
+          mvn -Pall clean package
           cp restore.yml ./target
           cd target
           java -agentlib:native-image-agent=config-output-dir=../src/main/resources/META-INF/native-image -jar Restore-all.jar
-      - name: Maven package native
-        run: |
+          cd ../
           mvn -Pnative package
-          cd target
-          ls
       - name: Prepare Release File (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
         run: |
-          cp target/Restore ./
+          mkdir Restore-Linux
+          cp target/Restore ./Restore-Linux
+          cp restore.yml ./Restore-Linux
+          zip -r -q Restore-Linux.zip Restore-Linux
+          mkdir Restore-Java
+          cp target/Restore-all.jar ./Restore-Java
+          cp restore.yml ./Restore-Java
+          zip -r -q Restore-Java.zip Restore-Java
       - name: Prepare Release File (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
-          copy target/Restore.exe ./
-          copy target/Restore-all.jar ./
+          mkdir Restor-Windows
+          copy target/Restore.exe ./Restor-Windows
+          copy restore.yml ./Restor-Windows
+          Compress-Archive -Path Restor-Windows -DestinationPath Restor-Windows.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            Restore*
+            Restore-*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
