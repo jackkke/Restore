@@ -1,5 +1,7 @@
 name: GraalVM build
 on: [push]
+permissions:
+  contents: write
 jobs:
   build:
     strategy:
@@ -47,3 +49,5 @@ jobs:
         with:
           files: |
             Restore*
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
