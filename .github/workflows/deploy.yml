@@ -1,5 +1,8 @@
 name: GraalVM build
-on: [push]
+on:
+  push:
+    tags:
+        - '*'
 permissions:
   contents: write
 jobs:
