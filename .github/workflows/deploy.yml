@@ -38,8 +38,8 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: |
           mkdir Restor-Windows
-          copy target/Restore.exe ./Restor-Windows
-          copy restore.yml ./Restor-Windows
+          cp target/Restore.exe ./Restor-Windows
+          cp restore.yml ./Restor-Windows
           Compress-Archive -Path Restor-Windows -DestinationPath Restor-Windows.zip
       - name: Release
         uses: softprops/action-gh-release@v1
