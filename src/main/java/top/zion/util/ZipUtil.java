@@ -23,7 +23,25 @@ public class ZipUtil {
     public static void zipPath(String zipPath, String path, boolean delSource) {
         Path sourcePath = Paths.get(path);
         String zipFilePath = Paths.get(zipPath) + File.separator + sourcePath.getFileName() + ".zip";
-        cn.hutool.core.util.ZipUtil.zip(sourcePath.toFile().getAbsolutePath(), zipFilePath);
+        try (java.util.zip.ZipOutputStream zipOutputStream = new java.util.zip.ZipOutputStream(Files.newOutputStream(Paths.get(zipFilePath)));
+             Stream<Path> walk = Files.walk(sourcePath)) {
+            walk.filter(Files::isRegularFile)
+                    .forEach(filePath -> {
+                        try {
+                            String entryName = sourcePath.relativize(filePath).toString();
+                            ZipEntry zipEntry = new ZipEntry(entryName);
+                            zipEntry.setMethod(ZipEntry.DEFLATED);
+                            zipOutputStream.putNextEntry(zipEntry);
+                            FileUtil.writeToStream(filePath.toFile(), zipOutputStream);
+                            zipOutputStream.closeEntry();
+                        } catch (IOException e) {
+                            System.err.printf("zip %s error : %s%n", filePath, e.getMessage());
+                        }
+                    });
+            System.out.printf("zip %s successful!%n", zipFilePath);
+        } catch (IOException e) {
+            System.err.printf("zip error : %s%n", e.getMessage());
+        }
         if (delSource) FileUtil.del(path);
     }
 
