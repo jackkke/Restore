@@ -1,7 +1,7 @@
 password: zion
 # svn:
-#   - your svn url
+#   yourname: your svn url
 # git:
-#   - your git url
+#   yourname: your git url
 path:
   - ./classes
