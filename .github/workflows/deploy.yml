@@ -10,7 +10,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest]
+        include:
+          - platform: windows-latest
+            target: x86_64-pc-windows-msvc
+            release-name: Windows
+          - platform: windows-latest
+            target: aarch64-pc-windows-msvc
+            release-name: x86_64-linux
+          - platform: macos-latest
+            target: x86_64-apple-darwin
+            release-name: x86_64-linux
+          - platform: macos-latest
+            target: aarch64-apple-darwin
+            release-name: x86_64-linux
+          - platform: ubuntu-latest
+            target:  x86_64-unknown-linux-gnu
+            release-name: x86_64-linux
+          - platform: ubuntu-latest
+            target: aarch64_be-unknown-linux-gnu
+            release-name: x86_64-linux
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
