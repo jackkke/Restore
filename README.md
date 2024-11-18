@@ -45,7 +45,7 @@
 1. 构建全量包，包含依赖
 
    ```shell
-   mvn -P all clean package
+   mvn clean package
    ```
 2. 使用 agent 生成 [reflect-_config_.json](src%2Fmain%2Fresources%2FMETA-INF%2Fnative-image%2Freflect-config.json) 等文件
 
