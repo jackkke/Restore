@@ -10,6 +10,7 @@ import top.zion.handle.Svn;
 import top.zion.util.ZipUtil;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Paths;
 
 /**
@@ -22,9 +23,17 @@ public class Restore {
         String classPath = Restore.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String fileName = "Restore" + CURRENT_SECONDS;
         String confName = "restore.yml";
-        if (!classPath.endsWith(".jar") && !classPath.endsWith(".exe")) {
-            fileName = "../" + fileName;
-            confName = "../" + confName;
+        if (System.getProperty("org.graalvm.nativeimage.imagecode") != null) {
+            System.out.println("Running as a native image.");
+        } else {
+            System.out.println("Running on JVM.");
+            if (!classPath.endsWith(".jar") || ManagementFactory.getRuntimeMXBean().getInputArguments().stream().anyMatch(o -> o.startsWith("-agentlib:native-image-agent="))) {
+                fileName = "../" + fileName;
+                confName = "../" + confName;
+                if (classPath.endsWith(".jar")) {
+                    System.out.println("use agentlib:native-image-agent create config for native");
+                }
+            }
         }
         String jarPath = new File(classPath).getParent();
         String zipPath = Paths.get(jarPath, fileName).toString();
